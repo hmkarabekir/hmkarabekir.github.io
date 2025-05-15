@@ -127,86 +127,105 @@
   </div>
 
   <script>
-    const stock = {
-      et: 10,
-      tavuk: 10,
-      kori: 10,
-      krema: 10
+  const products = {
+    "Et Fajita": { et: 1, krema: 1 },
+    "Kremalı Tavuk": { tavuk: 1, krema: 1 },
+    "Köri Soslu Tavuk": { tavuk: 1, kori: 1 },
+    "Körili Et Kavurma": { et: 1, kori: 1 }
+  };
+
+  const etRange = document.getElementById("etRange");
+  const tavukRange = document.getElementById("tavukRange");
+  const koriRange = document.getElementById("koriRange");
+  const kremaRange = document.getElementById("kremaRange");
+
+  const etVal = document.getElementById("etVal");
+  const tavukVal = document.getElementById("tavukVal");
+  const koriVal = document.getElementById("koriVal");
+  const kremaVal = document.getElementById("kremaVal");
+
+  function loadStock() {
+    return {
+      et: parseInt(localStorage.getItem("stok_et")) || 10,
+      tavuk: parseInt(localStorage.getItem("stok_tavuk")) || 10,
+      kori: parseInt(localStorage.getItem("stok_kori")) || 10,
+      krema: parseInt(localStorage.getItem("stok_krema")) || 10
     };
+  }
 
-    const products = {
-      "Et Fajita": { et: 1, krema: 1 },
-      "Kremalı Tavuk": { tavuk: 1, krema: 1 },
-      "Köri Soslu Tavuk": { tavuk: 1, kori: 1 },
-      "Körili Et Kavurma": { et: 1, kori: 1 }
-    };
+  function saveStockToLocalStorage(stock) {
+    localStorage.setItem("stok_et", stock.et);
+    localStorage.setItem("stok_tavuk", stock.tavuk);
+    localStorage.setItem("stok_kori", stock.kori);
+    localStorage.setItem("stok_krema", stock.krema);
+  }
 
-    const etRange = document.getElementById("etRange");
-    const tavukRange = document.getElementById("tavukRange");
-    const koriRange = document.getElementById("koriRange");
-    const kremaRange = document.getElementById("kremaRange");
+  let stock = loadStock();
 
-    const etVal = document.getElementById("etVal");
-    const tavukVal = document.getElementById("tavukVal");
-    const koriVal = document.getElementById("koriVal");
-    const kremaVal = document.getElementById("kremaVal");
+  function updateStockLabels() {
+    etVal.textContent = stock.et;
+    tavukVal.textContent = stock.tavuk;
+    koriVal.textContent = stock.kori;
+    kremaVal.textContent = stock.krema;
+  }
 
-    function updateStockLabels() {
-      etVal.textContent = stock.et;
-      tavukVal.textContent = stock.tavuk;
-      koriVal.textContent = stock.kori;
-      kremaVal.textContent = stock.krema;
-    }
-
-    function onRangeChange(ingredient, val) {
-      stock[ingredient] = parseInt(val);
-      updateStockLabels();
-    }
-
-    etRange.addEventListener("input", e => onRangeChange("et", e.target.value));
-    tavukRange.addEventListener("input", e => onRangeChange("tavuk", e.target.value));
-    koriRange.addEventListener("input", e => onRangeChange("kori", e.target.value));
-    kremaRange.addEventListener("input", e => onRangeChange("krema", e.target.value));
-
+  function onRangeChange(ingredient, val) {
+    stock[ingredient] = parseInt(val);
+    saveStockToLocalStorage(stock);
     updateStockLabels();
+  }
 
-    function updateStock(productName, quantity) {
-      const required = products[productName];
-      if (!required) {
-        alert("Ürün bulunamadı!");
+  etRange.addEventListener("input", e => onRangeChange("et", e.target.value));
+  tavukRange.addEventListener("input", e => onRangeChange("tavuk", e.target.value));
+  koriRange.addEventListener("input", e => onRangeChange("kori", e.target.value));
+  kremaRange.addEventListener("input", e => onRangeChange("krema", e.target.value));
+
+  etRange.value = stock.et;
+  tavukRange.value = stock.tavuk;
+  koriRange.value = stock.kori;
+  kremaRange.value = stock.krema;
+
+  updateStockLabels();
+
+  function updateStock(productName, quantity) {
+    const required = products[productName];
+    if (!required) {
+      alert("Ürün bulunamadı!");
+      return false;
+    }
+
+    for (const ingredient in required) {
+      if (stock[ingredient] < required[ingredient] * quantity) {
+        alert(`${ingredient} stoğu yetersiz!`);
         return false;
       }
-
-      for (const ingredient in required) {
-        if (stock[ingredient] < required[ingredient] * quantity) {
-          alert(`${ingredient} stoğu yetersiz!`);
-          return false;
-        }
-      }
-
-      for (const ingredient in required) {
-        stock[ingredient] -= required[ingredient] * quantity;
-      }
-
-      etRange.value = stock.et;
-      tavukRange.value = stock.tavuk;
-      koriRange.value = stock.kori;
-      kremaRange.value = stock.krema;
-      updateStockLabels();
-
-      alert(`Sipariş onaylandı. Güncel stoklar: Et:${stock.et}, Tavuk:${stock.tavuk}, Köri:${stock.kori}, Krema:${stock.krema}`);
-      return true;
     }
 
-    document.getElementById("order-btn").addEventListener("click", () => {
-      const product = document.getElementById("product-select").value;
-      const qty = parseInt(document.getElementById("quantity-input").value);
-      if (qty > 0) {
-        updateStock(product, qty);
-      } else {
-        alert("Lütfen geçerli bir adet girin.");
-      }
-    });
-  </script>
+    for (const ingredient in required) {
+      stock[ingredient] -= required[ingredient] * quantity;
+    }
+
+    saveStockToLocalStorage(stock);
+
+    etRange.value = stock.et;
+    tavukRange.value = stock.tavuk;
+    koriRange.value = stock.kori;
+    kremaRange.value = stock.krema;
+    updateStockLabels();
+
+    alert(`Sipariş onaylandı. Güncel stoklar: Et:${stock.et}, Tavuk:${stock.tavuk}, Köri:${stock.kori}, Krema:${stock.krema}`);
+    return true;
+  }
+
+  document.getElementById("order-btn").addEventListener("click", () => {
+    const product = document.getElementById("product-select").value;
+    const qty = parseInt(document.getElementById("quantity-input").value);
+    if (qty > 0) {
+      updateStock(product, qty);
+    } else {
+      alert("Lütfen geçerli bir adet girin.");
+    }
+  });
+</script>
 </body>
 </html>
