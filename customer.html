@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Müşteri Paneli</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background-color: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 40px;
+    }
+
+    .top-bar a {
+      text-decoration: none;
+      color: white;
+      background-color: #444;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background-color 0.2s;
+    }
+
+    .top-bar a:hover {
+      background-color: #666;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      font-weight: bold;
+      color: white;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(150px, 1fr));
+      gap: 50px;
+      margin-bottom: 60px;
+    }
+
+    button {
+      background-color: #ca3ec3;
+      border: none;
+      padding: 35px 25px;
+      font-size: 30px;
+      border-radius: 10px;
+      cursor: pointer;
+      color: white; 
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    #meal-info img {
+      width: 300px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+
+@media (max-width: 600px) {
+  .buttons-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  button {
+    width: 90%;
+    font-size: 16px;
+  }
+}
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <a href="admin.html">← Admin Paneline Git</a>
+  </div>
+
+  <h1>Nasıl hissediyorsun?</h1>
+  <div class="buttons">
+    <button onclick="getSuggestion('stressed')">Yorgun</button>
+    <button onclick="getSuggestion('excited')">Macera Arıyorum</button>
+    <button onclick="getSuggestion('lazy')">Kendimi Şımartmak İstiyorum</button>
+    <button onclick="getSuggestion('neutral')">Kararsızım</button>
+  </div>
+
+  <h2 id="suggestion">Önerilen yemek: </h2>
+  <div id="meal-info"></div>
+
+  <script>
+    const meals = {
+      stressed: [
+        { name: "Kremalı Tavuk", needs: ["chicken", "cream"], isAlternative: false },
+        { name: "Köri Soslu Tavuk", needs: ["chicken", "curry"], isAlternative: true },
+        { name: "Kremalı Et Fajita", needs: ["beef", "cream"], isAlternative: false },
+        { name: "Körili Et Kavurma", needs: ["beef", "curry"], isAlternative: true }
+      ],
+      excited: [
+        { name: "Kremalı Et Fajita", needs: ["beef", "cream"], isAlternative: false },
+        { name: "Kremalı Tavuk", needs: ["chicken", "cream"], isAlternative: true },
+        { name: "Köri Soslu Tavuk", needs: ["chicken", "curry"], isAlternative: true },
+        { name: "Körili Et Kavurma", needs: ["beef", "curry"], isAlternative: true }
+      ],
+      lazy: [
+        { name: "Köri Soslu Tavuk", needs: ["chicken", "curry"], isAlternative: false },
+        { name: "Körili Et Kavurma", needs: ["beef", "curry"], isAlternative: true }
+      ],
+      neutral: [
+        { name: "Kremalı Tavuk", needs: ["chicken", "cream"], isAlternative: false },
+        { name: "Köri Soslu Tavuk", needs: ["chicken", "curry"], isAlternative: true }
+      ]
+    };
+
+    const mealDetails = {
+      "Kremalı Tavuk": {
+        img: "images/creamy_chicken.jpg",
+        desc: "Hafif krema sosuyla pişmiş yumuşacık tavuk."
+      },
+      "Köri Soslu Tavuk": {
+        img: "images/curry_chicken.jpg",
+        desc: "Baharatlı ve aromatik köri sosuyla hazırlanmış tavuk."
+      },
+      "Kremalı Et Fajita": {
+        img: "images/meat_fajita.jpg",
+        desc: "Krema ile sotelenmiş yumuşacık dana eti."
+      },
+      "Körili Et Kavurma": {
+        img: "images/beef_curry.jpg",
+        desc: "Acılı köri sosuyla harmanlanmış kavrulmuş dana eti."
+      }
+    };
+
+    function getStock(ingredient) {
+      const val = localStorage.getItem(ingredient);
+      return val ? parseInt(val) : 0;
+    }
+
+    function checkAvailable(meal) {
+      return meal.needs.every(ing => getStock(ing) > 2);
+    }
+
+    function getSuggestion(mood) {
+      const options = meals[mood];
+
+      let found = options.find(m => !m.isAlternative && checkAvailable(m));
+      if (!found) {
+        found = options.find(m => m.isAlternative && checkAvailable(m));
+      }
+
+      const suggestionText = document.getElementById("suggestion");
+      const infoDiv = document.getElementById("meal-info");
+
+      if (found) {
+        suggestionText.innerText = "Önerilen yemek: " + found.name;
+        const detail = mealDetails[found.name];
+        infoDiv.innerHTML = `
+          <img src="${detail.img}" alt="${found.name}">
+          <p>${detail.desc}</p>
+        `;
+      } else {
+        suggestionText.innerText = "Uygun yemek bulunamadı.";
+        infoDiv.innerHTML = "";
+      }
+    }
+  </script>
+</body>
+</html>

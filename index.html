@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Yemek Öneri Sistemi</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: white;
+      text-align: center;
+      padding: 80px 20px;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 50px;
+    }
+
+    .panel-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+      flex-wrap: wrap;
+    }
+
+    .panel-buttons a {
+      text-decoration: none;
+    }
+
+    .panel-button {
+      background: #ff6600;
+      color: white;
+      padding: 30px 50px;
+      font-size: 24px;
+      border-radius: 15px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+      transition: transform 0.2s;
+    }
+
+    .panel-button:hover {
+      transform: scale(1.05);
+      background-color: #ff8800;
+    }
+  </style>
+</head>
+<body>
+  <h1>Hoş geldiniz! Lütfen giriş türünüzü seçin.</h1>
+  <div class="panel-buttons">
+    <a href="admin.html"><div class="panel-button">Admin Paneli</div></a>
+    <a href="customer.html"><div class="panel-button">Müşteri Paneli</div></a>
+  </div>
+</body>
+</html>

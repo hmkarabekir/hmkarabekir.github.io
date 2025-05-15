@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Paneli - Menü Yönetimi</title>
+  <style>
+    body {
+      background-color: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      font-weight: bold;
+      color: white;
+    }
+    .top-bar {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 30px;
+    }
+    .top-bar a {
+      text-decoration: none;
+      color: white;
+      background-color: #444;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background-color 0.2s;
+    }
+    .top-bar a:hover {
+      background-color: #666;
+    }
+    .ingredient {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 18px;
+    }
+    input[type="range"] {
+      width: 100%;
+    }
+    .stock-value {
+      font-size: 20px;
+      margin-top: 5px;
+      color: #ffa500;
+    }
+    button, select, input[type=number] {
+      background-color: #ff8800;
+      border: none;
+      padding: 15px 25px;
+      font-size: 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      color: white;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+      margin-top: 10px;
+    }
+    button:hover, select:hover, input[type=number]:hover {
+      transform: scale(1.05);
+    }
+    .buttons {
+      max-width: 500px;
+      margin: auto;
+      text-align: left;
+    }
+    #order-section {
+      margin-top: 40px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: left;
+      border: 2px solid #ffa500;
+      border-radius: 15px;
+      padding: 20px;
+      background-color: #222;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <a href="customer.html">Müşteri Sayfasına Dön</a>
+  </div>
+
+  <h1>Admin Paneli - Stok Yönetimi</h1>
+
+  <div class="buttons">
+    <div class="ingredient">
+      <label for="etRange">Et Miktarı: <span id="etVal">10</span></label>
+      <input type="range" id="etRange" min="0" max="20" value="10" />
+    </div>
+    <div class="ingredient">
+      <label for="tavukRange">Tavuk Miktarı: <span id="tavukVal">10</span></label>
+      <input type="range" id="tavukRange" min="0" max="20" value="10" />
+    </div>
+    <div class="ingredient">
+      <label for="koriRange">Köri Miktarı: <span id="koriVal">10</span></label>
+      <input type="range" id="koriRange" min="0" max="20" value="10" />
+    </div>
+    <div class="ingredient">
+      <label for="kremaRange">Krema Miktarı: <span id="kremaVal">10</span></label>
+      <input type="range" id="kremaRange" min="0" max="20" value="10" />
+    </div>
+  </div>
+
+  <div id="order-section">
+    <h2>Sipariş Girişi</h2>
+    <label for="product-select">Ürün Seç:</label>
+    <select id="product-select">
+      <option>Et Fajita</option>
+      <option>Kremalı Tavuk</option>
+      <option>Köri Soslu Tavuk</option>
+      <option>Körili Et Kavurma</option>
+    </select>
+
+    <label for="quantity-input">Adet:</label>
+    <input type="number" id="quantity-input" min="1" value="1" />
+
+    <button id="order-btn">Siparişi Onayla</button>
+  </div>
+
+  <script>
+    // Stok objesi başlangıç değerleri
+    const stock = {
+      et: 10,
+      tavuk: 10,
+      kori: 10,
+      krema: 10
+    };
+
+    // Ürünlerin içerdiği malzemeler
+    const products = {
+      "Et Fajita": { et: 1, krema: 1 },
+      "Kremalı Tavuk": { tavuk: 1, krema: 1 },
+      "Köri Soslu Tavuk": { tavuk: 1, kori: 1 },
+      "Körili Et Kavurma": { et: 1, kori: 1 }
+    };
+
+    // Stok güncelleme sliderları ve değer etiketleri
+    const etRange = document.getElementById("etRange");
+    const tavukRange = document.getElementById("tavukRange");
+    const koriRange = document.getElementById("koriRange");
+    const kremaRange = document.getElementById("kremaRange");
+
+    const etVal = document.getElementById("etVal");
+    const tavukVal = document.getElementById("tavukVal");
+    const koriVal = document.getElementById("koriVal");
+    const kremaVal = document.getElementById("kremaVal");
+
+    // Başlangıçta etiketlere değer yazdır
+    function updateStockLabels() {
+      etVal.textContent = stock.et;
+      tavukVal.textContent = stock.tavuk;
+      koriVal.textContent = stock.kori;
+      kremaVal.textContent = stock.krema;
+    }
+
+    // Slider hareketinde stok değerini güncelle ve etiketi değiştir
+    function onRangeChange(ingredient, val) {
+      stock[ingredient] = parseInt(val);
+      updateStockLabels();
+    }
+
+    etRange.addEventListener("input", e => onRangeChange("et", e.target.value));
+    tavukRange.addEventListener("input", e => onRangeChange("tavuk", e.target.value));
+    koriRange.addEventListener("input", e => onRangeChange("kori", e.target.value));
+    kremaRange.addEventListener("input", e => onRangeChange("krema", e.target.value));
+
+    updateStockLabels();
+
+    // Sipariş kontrol ve stok güncelleme fonksiyonu
+    function updateStock(productName, quantity) {
+      const required = products[productName];
+      if (!required) {
+        alert("Ürün bulunamadı!");
+        return false;
+      }
+
+      // Stok kontrolü
+      for (const ingredient in required) {
+        if (stock[ingredient] < required[ingredient] * quantity) {
+          alert(`${ingredient} stoğu yetersiz!`);
+          return false;
+        }
+      }
+
+      // Stokları güncelle
+      for (const ingredient in required) {
+        stock[ingredient] -= required[ingredient] * quantity;
+      }
+
+      // Sliderları ve etiketleri güncelle
+      etRange.value = stock.et;
+      tavukRange.value = stock.tavuk;
+      koriRange.value = stock.kori;
+      kremaRange.value = stock.krema;
+      updateStockLabels();
+
+      alert(`Sipariş onaylandı. Güncel stoklar: Et:${stock.et}, Tavuk:${stock.tavuk}, Köri:${stock.kori}, Krema:${stock.krema}`);
+      return true;
+    }
+
+    // Sipariş butonuna event listener
+    document.getElementById("order-btn").addEventListener("click", () => {
+      const product = document.getElementById("product-select").value;
+      const qty = parseInt(document.getElementById("quantity-input").value);
+      if (qty > 0) {
+        updateStock(product, qty);
+      } else {
+        alert("Lütfen geçerli bir adet girin.");
+      }
+    });
+  </script>
+</body>
+</html>
