@@ -98,6 +98,14 @@
   <div id="meal-info"></div>
 
   <script>
+    function initializeStockIfEmpty() {
+    if (localStorage.getItem("stok_et") === null)    localStorage.setItem("stok_et", 5);
+  if (localStorage.getItem("stok_tavuk") === null) localStorage.setItem("stok_tavuk", 5);
+  if (localStorage.getItem("stok_kori") === null) localStorage.setItem("stok_kori", 5);
+  if (localStorage.getItem("stok_krema") === null) localStorage.setItem("stok_krema", 5);
+}
+
+initializeStockIfEmpty();
     const meals = {
       stressed: [
         { name: "Köri Soslu Tavuk", needs: ["chicken", "curry"], isAlternative: true },
