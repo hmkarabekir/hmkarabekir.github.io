@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Stok Kontrolü</title>
+  <style>
+    body {
+      background: #1f2a38;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      padding: 40px;
+    }
+
+    .top-nav {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+
+    .nav-btn {
+      background-color: #20bf6b;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .stock-item {
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 18px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+    }
+
+    .val {
+      font-weight: bold;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-nav">
+    <button class="nav-btn" onclick="location.href='admin.html'">← Admin Paneli</button>
+  </div>
+
+  <h1>Stok Kontrolü</h1>
+
+  <div class="stock-item">
+    <label>Et: <span class="val" id="etVal">0</span></label>
+    <input type="range" id="etRange" min="0" max="10" value="5">
+  </div>
+
+  <div class="stock-item">
+    <label>Tavuk: <span class="val" id="tavukVal">0</span></label>
+    <input type="range" id="tavukRange" min="0" max="10" value="5">
+  </div>
+
+  <div class="stock-item">
+    <label>Köri: <span class="val" id="koriVal">0</span></label>
+    <input type="range" id="koriRange" min="0" max="10" value="5">
+  </div>
+
+  <div class="stock-item">
+    <label>Krema: <span class="val" id="kremaVal">0</span></label>
+    <input type="range" id="kremaRange" min="0" max="10" value="5">
+  </div>
+
+  <script>
+    const etRange = document.getElementById("etRange");
+    const tavukRange = document.getElementById("tavukRange");
+    const koriRange = document.getElementById("koriRange");
+    const kremaRange = document.getElementById("kremaRange");
+
+    const etVal = document.getElementById("etVal");
+    const tavukVal = document.getElementById("tavukVal");
+    const koriVal = document.getElementById("koriVal");
+    const kremaVal = document.getElementById("kremaVal");
+
+    function updateStock() {
+      localStorage.setItem("stok_et", etRange.value);
+      localStorage.setItem("stok_tavuk", tavukRange.value);
+      localStorage.setItem("stok_kori", koriRange.value);
+      localStorage.setItem("stok_krema", kremaRange.value);
+
+      etVal.textContent = etRange.value;
+      tavukVal.textContent = tavukRange.value;
+      koriVal.textContent = koriRange.value;
+      kremaVal.textContent = kremaRange.value;
+    }
+
+    // İlk açıldığında localStorage varsa onu yansıt
+    window.onload = () => {
+      etRange.value = localStorage.getItem("stok_et") || 5;
+      tavukRange.value = localStorage.getItem("stok_tavuk") || 5;
+      koriRange.value = localStorage.getItem("stok_kori") || 5;
+      kremaRange.value = localStorage.getItem("stok_krema") || 5;
+      updateStock();
+    };
+
+    etRange.addEventListener("input", updateStock);
+    tavukRange.addEventListener("input", updateStock);
+    koriRange.addEventListener("input", updateStock);
+    kremaRange.addEventListener("input", updateStock);
+  </script>
+
+</body>
+</html>

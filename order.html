@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Sipariş Girişi</title>
+  <style>
+    body {
+      background-color: #1e272e;
+      color: white;
+      font-family: Arial, sans-serif;
+      padding: 40px;
+    }
+
+    .top-nav {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+
+    .nav-btn {
+      background-color: #20bf6b;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    select, input[type="number"] {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      background-color: #4b7bec;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #3867d6;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-nav">
+    <button class="nav-btn" onclick="location.href='admin.html'">← Admin Paneli</button>
+  </div>
+
+  <h1>Sipariş Girişi</h1>
+
+  <div class="form-group">
+    <label for="product-select">Yemek Seç:</label><br>
+    <select id="product-select">
+      <option>Et Fajita</option>
+      <option>Kremalı Tavuk</option>
+      <option>Köri Soslu Tavuk</option>
+      <option>Körili Et Kavurma</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="quantity">Adet:</label><br>
+    <input type="number" id="quantity" value="1" min="1">
+  </div>
+
+  <div class="form-group">
+    <button onclick="submitOrder()">Siparişi Onayla</button>
+  </div>
+
+<script>
+  const products = {
+    "Et Fajita": { et: 1, krema: 1 },
+    "Kremalı Tavuk": { tavuk: 1, krema: 1 },
+    "Köri Soslu Tavuk": { tavuk: 1, kori: 1 },
+    "Körili Et Kavurma": { et: 1, kori: 1 }
+  };
+
+  function submitOrder() {
+    const product = document.getElementById("product-select").value;
+    const quantity = parseInt(document.getElementById("quantity").value);
+
+    const required = products[product];
+    let success = true;
+
+    for (let ingredient in required) {
+      const currentStock = parseInt(localStorage.getItem("stok_" + ingredient) || 0);
+      if (currentStock < required[ingredient] * quantity) {
+        alert(`${ingredient} stoğu yetersiz.`);
+        success = false;
+        break;
+      }
+    }
+
+    if (success) {
+      for (let ingredient in required) {
+        let currentStock = parseInt(localStorage.getItem("stok_" + ingredient) || 0);
+        currentStock -= required[ingredient] * quantity;
+        localStorage.setItem("stok_" + ingredient, currentStock);
+      }
+
+      let history = JSON.parse(localStorage.getItem("siparis_gecmisi")) || [];
+      history.push({ yemek: product, adet: quantity });
+      localStorage.setItem("siparis_gecmisi", JSON.stringify(history));
+
+      alert("Sipariş kaydedildi ve stok güncellendi!");
+    }
+  }
+</script>
+
+
+</body>
+</html>

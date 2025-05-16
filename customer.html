@@ -38,7 +38,6 @@
       font-size: 28px;
       margin-bottom: 20px;
       font-weight: bold;
-      color: white;
     }
 
     .buttons {
@@ -70,16 +69,16 @@
       margin-top: 20px;
     }
 
-@media (max-width: 600px) {
-  .buttons-container {
-    flex-direction: column;
-    align-items: center;
-  }
-  button {
-    width: 90%;
-    font-size: 16px;
-  }
-}
+    @media (max-width: 600px) {
+      .buttons-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      button {
+        width: 90%;
+        font-size: 16px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -101,24 +100,28 @@
   <script>
     const meals = {
       stressed: [
-        { name: "Kremalı Tavuk", needs: ["chicken", "cream"], isAlternative: false },
         { name: "Köri Soslu Tavuk", needs: ["chicken", "curry"], isAlternative: true },
-        { name: "Kremalı Et Fajita", needs: ["beef", "cream"], isAlternative: false },
-        { name: "Körili Et Kavurma", needs: ["beef", "curry"], isAlternative: true }
+        { name: "Körili Et Kavurma", needs: ["beef", "curry"], isAlternative: true },
+        { name: "Kremalı Et Fajita", needs: ["beef", "cream"], isAlternative: true },
+        { name: "Kremalı Tavuk", needs: ["chicken", "cream"], isAlternative: true }
       ],
       excited: [
         { name: "Kremalı Et Fajita", needs: ["beef", "cream"], isAlternative: false },
-        { name: "Kremalı Tavuk", needs: ["chicken", "cream"], isAlternative: true },
         { name: "Köri Soslu Tavuk", needs: ["chicken", "curry"], isAlternative: true },
-        { name: "Körili Et Kavurma", needs: ["beef", "curry"], isAlternative: true }
+        { name: "Körili Et Kavurma", needs: ["beef", "curry"], isAlternative: true },
+        { name: "Kremalı Tavuk", needs: ["chicken", "cream"], isAlternative: true }
       ],
       lazy: [
-        { name: "Köri Soslu Tavuk", needs: ["chicken", "curry"], isAlternative: false },
-        { name: "Körili Et Kavurma", needs: ["beef", "curry"], isAlternative: true }
+        { name: "Kremalı Tavuk", needs: ["chicken", "cream"], isAlternative: true },
+        { name: "Köri Soslu Tavuk", needs: ["chicken", "curry"], isAlternative: true },
+        { name: "Körili Et Kavurma", needs: ["beef", "curry"], isAlternative: true },
+        { name: "Kremalı Et Fajita", needs: ["beef", "cream"], isAlternative: true }
       ],
       neutral: [
-        { name: "Kremalı Tavuk", needs: ["chicken", "cream"], isAlternative: false },
-        { name: "Köri Soslu Tavuk", needs: ["chicken", "curry"], isAlternative: true }
+        { name: "Körili Et Kavurma", needs: ["beef", "curry"], isAlternative: false },
+        { name: "Köri Soslu Tavuk", needs: ["chicken", "curry"], isAlternative: true },
+        { name: "Kremalı Et Fajita", needs: ["beef", "cream"], isAlternative: true },
+        { name: "Kremalı Tavuk", needs: ["chicken", "cream"], isAlternative: true }
       ]
     };
 
@@ -141,13 +144,20 @@
       }
     };
 
-    function getStock(ingredient) {
-      const val = localStorage.getItem(ingredient);
-      return val ? parseInt(val) : 0;
-    }
+  function getStock(ingredient) {
+    const map = {
+      chicken: "stok_tavuk",
+      cream: "stok_krema",
+      beef: "stok_et",
+      curry: "stok_kori"
+    };
+    const val = localStorage.getItem(map[ingredient]);
+    return val ? parseInt(val) : 0;
+  }
+
 
     function checkAvailable(meal) {
-      return meal.needs.every(ing => getStock(ing) > 2);
+      return meal.needs.every(ing => getStock(ing) > 1);
     }
 
     function getSuggestion(mood) {
