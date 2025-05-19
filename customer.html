@@ -1,178 +1,201 @@
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Müşteri Paneli</title>
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    body {
-      background-color: #111;
-      color: white;
-      font-family: Arial, sans-serif;
-      padding: 40px;
-      text-align: center;
-    }
-
-    .top-bar {
-      display: flex;
-      justify-content: flex-start;
-      margin-bottom: 40px;
-    }
-
-    .top-bar a {
-      text-decoration: none;
-      color: white;
-      background-color: #444;
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-weight: bold;
-      transition: background-color 0.2s;
-    }
-
-    .top-bar a:hover {
-      background-color: #666;
-    }
-
-    h1 {
-      font-size: 28px;
-      margin-bottom: 20px;
-      font-weight: bold;
-      color: white;
-    }
-
-    .buttons {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(150px, 1fr));
-      gap: 50px;
-      margin-bottom: 60px;
-    }
-
-    button {
-      background-color: #ca3ec3;
-      border: none;
-      padding: 35px 25px;
-      font-size: 30px;
-      border-radius: 10px;
-      cursor: pointer;
-      color: white; 
-      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-      transition: transform 0.2s;
-    }
-
-    button:hover {
-      transform: scale(1.05);
-    }
-
-    #meal-info img {
-      width: 300px;
-      border-radius: 10px;
-      margin-top: 20px;
-    }
-
-@media (max-width: 600px) {
-  .buttons-container {
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Öneri Al</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to bottom, #8de0a6, #51b2a4);
+    color: #fff;
+    margin: 0;
+    padding: 0 20px;
+  }
+  .container {
+    max-width: 450px;
+    margin: 50px auto;
+    background: rgba(255 255 255 / 0.1);
+    border-radius: 12px;
+    padding: 25px 30px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  }
+  h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 700;
+    letter-spacing: 1.3px;
+  }
+  .question {
+    display: none;
     flex-direction: column;
-    align-items: center;
+    gap: 18px;
   }
-  button {
-    width: 90%;
-    font-size: 16px;
+  .question.active {
+    display: flex;
   }
-}
-  </style>
+  .question-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  button.option-btn {
+    flex: 1 1 45%;
+    padding: 14px 0;
+    background: rgba(255 255 255 / 0.25);
+    border: none;
+    border-radius: 10px;
+    color: #004d40;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.25s ease;
+    user-select: none;
+  }
+  button.option-btn:hover {
+    background: rgba(255 255 255 / 0.45);
+  }
+  #result-box {
+    margin-top: 30px;
+    background: rgba(255 255 255 / 0.2);
+    border-radius: 12px;
+    padding: 20px;
+    font-weight: 600;
+    font-size: 1.15rem;
+    color: #00332c;
+    text-align: center;
+  }
+</style>
 </head>
 <body>
-  <div class="top-bar">
-    <a href="admin.html">← Admin Paneline Git</a>
+  <div class="container">
+    <h1>Nasıl hissediyorsun?</h1>
+    
+    <div id="q1" class="question active">
+      <div class="question-title">1. Nasıl hissediyorsun?</div>
+      <div class="btn-group">
+        <button class="option-btn" data-answer="Enerjik">Enerjik</button>
+        <button class="option-btn" data-answer="Rahatlamış">Rahatlamış</button>
+        <button class="option-btn" data-answer="Mutlu">Mutlu</button>
+        <button class="option-btn" data-answer="Yorgun">Yorgun</button>
+      </div>
+    </div>
+    <div id="q2" class="question">
+      <div class="question-title">2. Kimin için alıyorsun?</div>
+      <div class="btn-group">
+        <button class="option-btn" data-answer="Kendim">Kendim</button>
+        <button class="option-btn" data-answer="Arkadaşlar">Arkadaşlar</button>
+        <button class="option-btn" data-answer="Aile">Aile</button>
+        <button class="option-btn" data-answer="İş toplantısı">İş toplantısı</button>
+      </div>
+    </div>
+    <div id="q3" class="question">
+      <div class="question-title">3. Hangi tür içecek tercih edersin?</div>
+      <div class="btn-group">
+        <button class="option-btn" data-answer="Alkollü">Alkollü</button>
+        <button class="option-btn" data-answer="Alkolsüz">Alkolsüz</button>
+        <button class="option-btn" data-answer="Smoothie">Smoothie</button>
+        <button class="option-btn" data-answer="Kahve/Çay">Kahve/Çay</button>
+      </div>
+    </div>
+    <div id="q4" class="question">
+      <div class="question-title">4. Fiyat aralığı nasıl olsun?</div>
+      <div class="btn-group">
+        <button class="option-btn" data-answer="Ucuz">Ucuz (0-50 TL)</button>
+        <button class="option-btn" data-answer="Orta">Orta (50-100 TL)</button>
+        <button class="option-btn" data-answer="Pahalı">Pahalı (100+ TL)</button>
+        <button class="option-btn" data-answer="Önemli değil">Önemli değil</button>
+      </div>
+    </div>
+    <div id="q5" class="question">
+      <div class="question-title">5. Hangi mevsimdeyiz?</div>
+      <div class="btn-group">
+        <button class="option-btn" data-answer="Yaz">Yaz</button>
+        <button class="option-btn" data-answer="Kış">Kış</button>
+        <button class="option-btn" data-answer="Bahar">Bahar</button>
+        <button class="option-btn" data-answer="Sonbahar">Sonbahar</button>
+      </div>
+    </div>
+    <div id="q6" class="question">
+      <div class="question-title">6. Tat tercihlerin?</div>
+      <div class="btn-group">
+        <button class="option-btn" data-answer="Tatlı">Tatlı</button>
+        <button class="option-btn" data-answer="Ekşi">Ekşi</button>
+        <button class="option-btn" data-answer="Tuzlu">Tuzlu</button>
+        <button class="option-btn" data-answer="Acı">Acı</button>
+      </div>
+    </div>
+
+    <div id="result-box"></div>
   </div>
 
-  <h1>Nasıl hissediyorsun?</h1>
-  <div class="buttons">
-    <button onclick="getSuggestion('stressed')">Yorgun</button>
-    <button onclick="getSuggestion('excited')">Macera Arıyorum</button>
-    <button onclick="getSuggestion('lazy')">Kendimi Şımartmak İstiyorum</button>
-    <button onclick="getSuggestion('neutral')">Kararsızım</button>
-  </div>
+<script>
+  const questions = [
+    "Nasıl hissediyorsun?",
+    "Kimin için alıyorsun?",
+    "Hangi tür içecek tercih edersin?",
+    "Fiyat aralığı nasıl olsun?",
+    "Hangi mevsimdeyiz?",
+    "Tat tercihlerin?"
+  ];
 
-  <h2 id="suggestion">Önerilen yemek: </h2>
-  <div id="meal-info"></div>
+  const answers = {};
 
-  <script>
-    const meals = {
-      stressed: [
-        { name: "Kremalı Tavuk", needs: ["chicken", "cream"], isAlternative: false },
-        { name: "Köri Soslu Tavuk", needs: ["chicken", "curry"], isAlternative: true },
-        { name: "Kremalı Et Fajita", needs: ["beef", "cream"], isAlternative: false },
-        { name: "Körili Et Kavurma", needs: ["beef", "curry"], isAlternative: true }
-      ],
-      excited: [
-        { name: "Kremalı Et Fajita", needs: ["beef", "cream"], isAlternative: false },
-        { name: "Kremalı Tavuk", needs: ["chicken", "cream"], isAlternative: true },
-        { name: "Köri Soslu Tavuk", needs: ["chicken", "curry"], isAlternative: true },
-        { name: "Körili Et Kavurma", needs: ["beef", "curry"], isAlternative: true }
-      ],
-      lazy: [
-        { name: "Köri Soslu Tavuk", needs: ["chicken", "curry"], isAlternative: false },
-        { name: "Körili Et Kavurma", needs: ["beef", "curry"], isAlternative: true }
-      ],
-      neutral: [
-        { name: "Kremalı Tavuk", needs: ["chicken", "cream"], isAlternative: false },
-        { name: "Köri Soslu Tavuk", needs: ["chicken", "curry"], isAlternative: true }
-      ]
-    };
+  let current = 1;
+  const total = questions.length;
 
-    const mealDetails = {
-      "Kremalı Tavuk": {
-        img: "images/creamy_chicken.jpg",
-        desc: "Hafif krema sosuyla pişmiş yumuşacık tavuk."
-      },
-      "Köri Soslu Tavuk": {
-        img: "images/curry_chicken.jpg",
-        desc: "Baharatlı ve aromatik köri sosuyla hazırlanmış tavuk."
-      },
-      "Kremalı Et Fajita": {
-        img: "images/meat_fajita.jpg",
-        desc: "Krema ile sotelenmiş yumuşacık dana eti."
-      },
-      "Körili Et Kavurma": {
-        img: "images/beef_curry.jpg",
-        desc: "Acılı köri sosuyla harmanlanmış kavrulmuş dana eti."
-      }
-    };
-
-    function getStock(ingredient) {
-      const val = localStorage.getItem(ingredient);
-      return val ? parseInt(val) : 0;
+  function showQuestion(n) {
+    for(let i=1; i<=total; i++) {
+      document.getElementById("q"+i).classList.remove("active");
     }
-
-    function checkAvailable(meal) {
-      return meal.needs.every(ing => getStock(ing) > 2);
+    if(n <= total) {
+      document.getElementById("q"+n).classList.add("active");
+      document.querySelector("h1").innerText = questions[n-1];
     }
+  }
 
-    function getSuggestion(mood) {
-      const options = meals[mood];
+  function showSuggestion() {
+    let text = "Senin için öneri: ";
+    if(answers["q1"] === "Enerjik" && answers["q3"] === "Alkollü") {
+      text += "Soğuk bir Mojito!";
+    } else if(answers["q1"] === "Rahatlamış" && answers["q3"] === "Alkolsüz") {
+      text += "Taze sıkılmış meyve suyu.";
+    } else if(answers["q6"] === "Tatlı") {
+      text += "Çikolatalı Smoothie.";
+    } else {
+      text += "Favori içeceğini dene!";
+    }
+    const resultBox = document.getElementById("result-box");
+    resultBox.innerText = text;
+    resultBox.style.display = "block";
+  }
 
-      let found = options.find(m => !m.isAlternative && checkAvailable(m));
-      if (!found) {
-        found = options.find(m => m.isAlternative && checkAvailable(m));
-      }
-
-      const suggestionText = document.getElementById("suggestion");
-      const infoDiv = document.getElementById("meal-info");
-
-      if (found) {
-        suggestionText.innerText = "Önerilen yemek: " + found.name;
-        const detail = mealDetails[found.name];
-        infoDiv.innerHTML = `
-          <img src="${detail.img}" alt="${found.name}">
-          <p>${detail.desc}</p>
-        `;
+  document.querySelectorAll(".option-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const parentId = btn.closest(".question").id;
+      const qNum = parseInt(parentId.replace("q", ""));
+      answers[parentId] = btn.dataset.answer;
+      current = qNum + 1;
+      if(current <= total) {
+        showQuestion(current);
       } else {
-        suggestionText.innerText = "Uygun yemek bulunamadı.";
-        infoDiv.innerHTML = "";
+        // Son soru cevaplandı, öneriyi göster:
+        for(let i=1; i<=total; i++) {
+          document.getElementById("q"+i).classList.remove("active");
+        }
+        document.querySelector("h1").innerText = "Önerin hazır!";
+        showSuggestion();
       }
-    }
-  </script>
+    });
+  });
+
+  showQuestion(current);
+</script>
 </body>
 </html>
