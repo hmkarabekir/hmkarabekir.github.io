@@ -3,54 +3,194 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Yemek Öneri Sistemi</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>BeachClub Menü</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #111;
-      color: white;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      padding-bottom: 220px;
+    }
+
+    header {
       text-align: center;
-      padding: 80px 20px;
+      padding: 30px 0 10px;
+      font-size: 2em;
+      background: rgba(0, 0, 0, 0.4);
     }
 
-    h1 {
-      font-size: 32px;
-      margin-bottom: 50px;
-    }
-
-    .panel-buttons {
+    .tabs {
       display: flex;
       justify-content: center;
-      gap: 50px;
-      flex-wrap: wrap;
+      gap: 20px;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.3);
     }
 
-    .panel-buttons a {
-      text-decoration: none;
+    .tabs button {
+      background: #ffd54f;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 20px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
     }
 
-    .panel-button {
-      background: #ff6600;
-      color: white;
-      padding: 30px 50px;
-      font-size: 24px;
+    .tabs button.active {
+      background: #ffb300;
+    }
+
+    .menu-section {
+      display: none;
+      padding: 30px;
+      max-width: 700px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.1);
       border-radius: 15px;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-      transition: transform 0.2s;
     }
 
-    .panel-button:hover {
-      transform: scale(1.05);
-      background-color: #ff8800;
+    .menu-section.active {
+      display: block;
+    }
+
+    .item-row {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,0.3);
+      padding: 12px 0;
+      font-size: 1.1rem;
+    }
+
+    .suggest-box {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      height: 200px;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .suggest-box p {
+      font-size: 1.2rem;
+      margin: 0;
+    }
+
+    .suggest-box button {
+      padding: 12px 24px;
+      font-size: 1rem;
+      background: #ffcc80;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .suggest-box button:hover {
+      background: #ffa726;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 20px;
+      color: white;
+      background: none;
+      border: none;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <h1>Hoş geldiniz! Lütfen giriş türünüzü seçin.</h1>
-  <div class="panel-buttons">
-    <a href="admin.html"><div class="panel-button">Admin Paneli</div></a>
-    <a href="customer.html"><div class="panel-button">Müşteri Paneli</div></a>
+
+  <header>BeachClub Menü</header>
+
+  <div class="tabs">
+    <button id="btn-drinks" class="active">İçecekler</button>
+    <button id="btn-foods">Yiyecekler</button>
   </div>
+
+  <div id="drinks" class="menu-section active">
+    <!-- 20 içecek -->
+    <div class="item-row"><span>Mango Mojito</span><span>110 TL</span></div>
+    <div class="item-row"><span>Frozen Limonata</span><span>90 TL</span></div>
+    <div class="item-row"><span>Karpuz Smoothie</span><span>85 TL</span></div>
+    <div class="item-row"><span>Virgin Pina Colada</span><span>95 TL</span></div>
+    <div class="item-row"><span>Buzlu Çay</span><span>50 TL</span></div>
+    <div class="item-row"><span>Soğuk Kahve</span><span>75 TL</span></div>
+    <div class="item-row"><span>Çilekli Milkshake</span><span>80 TL</span></div>
+    <div class="item-row"><span>Meyve Kokteyli</span><span>120 TL</span></div>
+    <div class="item-row"><span>Enerji İçeceği</span><span>65 TL</span></div>
+    <div class="item-row"><span>Kavunlu Soda</span><span>55 TL</span></div>
+    <div class="item-row"><span>Portakal Suyu</span><span>60 TL</span></div>
+    <div class="item-row"><span>Karışık Meyve Suyu</span><span>70 TL</span></div>
+    <div class="item-row"><span>Şeftalili Ice Tea</span><span>50 TL</span></div>
+    <div class="item-row"><span>Berry Boost</span><span>100 TL</span></div>
+    <div class="item-row"><span>Hindistan Cevizi Suyu</span><span>90 TL</span></div>
+    <div class="item-row"><span>Kırmızı Meyve Soda</span><span>60 TL</span></div>
+    <div class="item-row"><span>Lime Cooler</span><span>80 TL</span></div>
+    <div class="item-row"><span>Ananaslı Punch</span><span>95 TL</span></div>
+    <div class="item-row"><span>Alkolsüz Margarita</span><span>110 TL</span></div>
+    <div class="item-row"><span>Beach Sunrise</span><span>125 TL</span></div>
+  </div>
+
+  <div id="foods" class="menu-section">
+    <!-- 20 yemek -->
+    <div class="item-row"><span>Tavuk Wrap</span><span>150 TL</span></div>
+    <div class="item-row"><span>Izgara Levrek</span><span>190 TL</span></div>
+    <div class="item-row"><span>Cheeseburger</span><span>170 TL</span></div>
+    <div class="item-row"><span>Vegan Bowl</span><span>160 TL</span></div>
+    <div class="item-row"><span>Makarna Alfredo</span><span>145 TL</span></div>
+    <div class="item-row"><span>Sebzeli Noodle</span><span>155 TL</span></div>
+    <div class="item-row"><span>Pizza Margarita</span><span>180 TL</span></div>
+    <div class="item-row"><span>Etli Taco</span><span>165 TL</span></div>
+    <div class="item-row"><span>Kinoa Salata</span><span>140 TL</span></div>
+    <div class="item-row"><span>Shrimp Tava</span><span>195 TL</span></div>
+    <div class="item-row"><span>Somon Izgara</span><span>210 TL</span></div>
+    <div class="item-row"><span>Kumpir</span><span>130 TL</span></div>
+    <div class="item-row"><span>Sebzeli Güveç</span><span>150 TL</span></div>
+    <div class="item-row"><span>Fırın Tavuk</span><span>160 TL</span></div>
+    <div class="item-row"><span>Izgara Köfte</span><span>155 TL</span></div>
+    <div class="item-row"><span>Balık Tacos</span><span>175 TL</span></div>
+    <div class="item-row"><span>Karışık Meze Tabağı</span><span>145 TL</span></div>
+    <div class="item-row"><span>Mercimek Burger</span><span>135 TL</span></div>
+    <div class="item-row"><span>Sebzeli Pizza</span><span>185 TL</span></div>
+    <div class="item-row"><span>Gavurdağı Salata</span><span>125 TL</span></div>
+  </div>
+
+  <div id="suggestBox" class="suggest-box">
+    <button class="close-btn" onclick="document.getElementById('suggestBox').style.display='none'">×</button>
+    <p>Ruh haline göre bir şey önerelim mi?</p>
+    <button onclick="window.location.href='suggestion.html'">Bana bir şey öner</button>
+  </div>
+
+  <script>
+    const btnDrinks = document.getElementById("btn-drinks");
+    const btnFoods = document.getElementById("btn-foods");
+    const drinks = document.getElementById("drinks");
+    const foods = document.getElementById("foods");
+
+    btnDrinks.addEventListener("click", () => {
+      btnDrinks.classList.add("active");
+      btnFoods.classList.remove("active");
+      drinks.classList.add("active");
+      foods.classList.remove("active");
+    });
+
+    btnFoods.addEventListener("click", () => {
+      btnFoods.classList.add("active");
+      btnDrinks.classList.remove("active");
+      foods.classList.add("active");
+      drinks.classList.remove("active");
+    });
+  </script>
+
 </body>
 </html>
